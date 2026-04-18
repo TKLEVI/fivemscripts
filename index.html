@@ -88,15 +88,8 @@
   align-items: center;
 }
 
-.faceid-frame::before, .faceid-frame::after, .faceid-corners::before, .faceid-corners::after {
-  content: ""; position: absolute; width: 25px; height: 25px; border-color: var(--tg-blue); border-style: solid;
-}
-
 .faceid-frame::before { top: 0; left: 0; border-width: 4px 0 0 4px; border-top-left-radius: 15px; }
 .faceid-frame::after { top: 0; right: 0; border-width: 4px 4px 0 0; border-top-right-radius: 15px; }
-.faceid-corners { position: absolute; inset: 0; }
-.faceid-corners::before { bottom: 0; left: 0; border-width: 0 0 4px 4px; border-bottom-left-radius: 15px; }
-.faceid-corners::after { bottom: 0; right: 0; border-width: 0 4px 4px 0; border-bottom-right-radius: 15px; }
 
 /* HIER VERVANGEN WE HET FACEID ICOON VOLLEDIG */
 .faceid-svg {
